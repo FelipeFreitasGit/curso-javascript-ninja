@@ -28,7 +28,7 @@
     /*
     Adicione 3 novos estados da região Norte no início do array e mostre no console.
     */
-   
+
     console.log( '\nMais estados adicionados:' );
     brasil.unshift('Amazonas','Pará','Acre');
     console.log(brasil);
@@ -104,7 +104,7 @@
         newBrasil.push({id: index, estado: item});
         return newBrasil;
     });
-    
+
     /*
     Mostre o array `newBrasil` no console
     */
@@ -124,6 +124,11 @@
     });
     console.log(maior ? 'Sim, todos os estados tem mais de 7 letras!'
                       : 'Nem todos os estados tem mais de 7 letras!' );
+    if(maior === true){
+      console.log('Sim, todos os estados tem mais de 7 letras!');
+    }else{
+      console.log('Nem todos os estados tem mais de 7 letras!');
+    }
     /*
     Percorra o array `brasil` e verifique se o Ceará está incluído, atribuindo o
     resultado à uma variável. Se esse estado existir no array, mostrar a frase no
@@ -171,4 +176,4 @@
     */
     console.log( '\nEstados com ID par:' );
     console.log(filter);
-}())    
+}())
