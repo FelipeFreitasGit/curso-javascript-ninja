@@ -23,3 +23,73 @@ multiplicação (x), então no input deve aparecer "1+2x".
 input;
 - Ao pressionar o botão "CE", o input deve ficar zerado.
 */
+(function(window, document){
+
+  var $number = document.querySelectorAll('[data-js="number"]');
+  var $operarcao = document.querySelectorAll('[data-js="operarcao"]');
+  var $limpar = document.querySelector('[data-js="limpar"]');
+  var $texto = document.querySelector('[data-js="texto"]');
+  var $igual = document.querySelector('[data-js="igual"]');
+
+  Array.prototype.forEach.call($number, function(button){
+    button.addEventListener('click', funcNumber, false);
+  });
+
+  Array.prototype.forEach.call($operarcao, function(button){
+    button.addEventListener('click', funcOperarcao, false);
+  });
+
+  $igual.addEventListener('click', funIgual, false);
+  $limpar.addEventListener('click', funLimpar, false);
+
+  function funcNumber(){
+    $texto.value += this.value;
+  }
+
+  function funcOperarcao(){
+    $texto.value = removerUltimoItem($texto.value);
+    $texto.value += this.value;
+  }
+
+  function isLastItemAnOperation(number){
+    var operations = ['+','-','*','/'];
+    var lastItem = number.split('').pop();
+    return operations.some(function(item){
+      return item === lastItem;
+    });
+  }
+
+  function removerUltimoItem(number){
+    if(isLastItemAnOperation(number)){
+      return number.slice(0, -1);
+    }
+    return number;
+  }
+
+  function funIgual(){
+  $texto.value = removerUltimoItem($texto.value);
+  var allValues = $texto.value.match(/\d+[+*/-]?/g);
+  $texto.value = allValues.reduce(function(accumulated, actual){
+    var firstValue = accumulated.slice(0, -1);
+    var operador = accumulated.split('').pop();
+    var lastValue = removerUltimoItem(actual);
+    var lastOperator = isLastItemAnOperation(actual) ? actual.split('').pop() : '';
+    switch(operador){
+      case '+':
+        return (Number(firstValue) + Number(lastValue)) + lastOperator;
+      case '-':
+        return (Number(firstValue) - Number(lastValue)) + lastOperator;
+      case '*':
+        return (Number(firstValue) * Number(lastValue)) + lastOperator;
+      case '/':
+        return (Number(firstValue) / Number(lastValue)) + lastOperator;
+    }
+  });
+
+  }
+
+  function funLimpar(){
+    $texto.value = 0;
+  }
+
+}(window, document));
